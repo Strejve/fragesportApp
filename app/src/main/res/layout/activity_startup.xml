@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartupActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Välkommen till Frågesportappen! Hur många spelar ska spela?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.227" />
+
+    <Button
+        android:id="@+id/button1p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 spelare"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button2p"
+        app:layout_constraintEnd_toStartOf="@+id/button2p"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button2p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:text="2 spelare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button1p"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button3p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 Spelare"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button4p"
+        app:layout_constraintEnd_toStartOf="@+id/button4p"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button4p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4 Spelare"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button3p"
+        app:layout_constraintTop_toBottomOf="@+id/button2p"
+        app:layout_constraintVertical_bias="0.211" />
+</androidx.constraintlayout.widget.ConstraintLayout>
