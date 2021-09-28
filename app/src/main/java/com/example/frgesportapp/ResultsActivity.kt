@@ -11,7 +11,7 @@ class ResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results)
-        var resultsPointsArray = intent.getIntArrayExtra("finalPointsList")
+        var resultsPointsArray = intent.getIntArrayExtra("finalPointsArray")
         val resultsTextView = findViewById<TextView>(R.id.resultsTextView)
         var resultsText = ""
         var index = 1

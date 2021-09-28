@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FrågesportApp">
         <activity
+            android:name=".scrollQuestionsAdapter"
+            android:exported="true"
+            android:label="@string/title_activity_scroll_questions_adapter"
+            android:theme="@style/Theme.FrågesportApp.NoActionBar" />
+        <activity
+            android:name=".scrollQuestionsActivity"
+            android:exported="true" />
+        <activity
             android:name=".ResultsActivity"
             android:exported="true" />
         <activity

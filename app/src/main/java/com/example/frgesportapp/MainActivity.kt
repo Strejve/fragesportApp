@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     var turnIndex = 0
     var buttonIndex = 0
     var pointsList = mutableListOf<Int>()
+    var questionsDone = mutableListOf<FragaBas>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             buttonIndex+=1
 
              if (gammalFraga!= null){
+                 questionsDone.add(gammalFraga!!)
                  frageBibliotek = forkortaBibliotek(gammalFraga!!, frageBibliotek)
              }
             gammalFraga = NyFraga(frageBibliotek)
@@ -191,10 +193,10 @@ class MainActivity : AppCompatActivity() {
 
 
     fun startResultactivity() {
-        val finalPointsList = pointsList.toIntArray()
+        val finalPointsArray = pointsList.toIntArray()
         intent = Intent(this, ResultsActivity::class.java)
-        intent.putExtra("finalPointsList",finalPointsList)
-        Log.d("!!!MainActivity","$finalPointsList")
+        intent.putExtra("finalPointsArray",finalPointsArray)
+        Log.d("!!!MainActivity","$finalPointsArray")
         startActivity(intent)
     }
 
