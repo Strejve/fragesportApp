@@ -14,7 +14,7 @@ class scrollQuestionsActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         //skapa en adapter från vår adapter-klass, skicka med vår lista
-        val adapter = scrollQuestionsAdapter(this,questionsDone)
+        val adapter = scrollQuestionsAdapter(this,DataManager.questionsDone)
 
         //koppla ihop vår adapter med recyclerView:n
         recyclerView.adapter = adapter

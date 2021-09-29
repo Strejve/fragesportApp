@@ -1,8 +1,10 @@
 package com.example.frgesportapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 
 
@@ -34,6 +36,10 @@ class ResultsActivity : AppCompatActivity() {
         else {
             val sortResultsPoints = resultsPointsArray.copyOf()
             getWinners(sortResultsPoints, resultsPointsArray)
+        }
+        val scrollQuestionsButton = findViewById<Button>(R.id.scrollQuestionsButton)
+        scrollQuestionsButton.setOnClickListener(){
+            startScrollQuestionsActivity()
         }
     }
 
@@ -75,5 +81,10 @@ class ResultsActivity : AppCompatActivity() {
 
         val winnersTextView = findViewById<TextView>(R.id.winnersTextView)
         winnersTextView.setText(winnersText)
+    }
+
+    fun startScrollQuestionsActivity(){
+        intent = Intent(this, scrollQuestionsActivity::class.java)
+        startActivity(intent)
     }
 }
