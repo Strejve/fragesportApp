@@ -17,15 +17,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var alternativA: Button
     lateinit var alternativB: Button
     lateinit var alternativC: Button
+    lateinit var nyFraga: Button
     lateinit var textViewPoints:TextView
-    var numberOfPlayers = 1
     var gammalFraga: FragaBas? = null
-    var playerIndex = 1
+    var playerIndex = 5
     var turnIndex = 0
     var buttonIndex = 0
     var pointsList = mutableListOf<Int>()
-    var questionsDone = mutableListOf<FragaBas>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         alternativA = findViewById(R.id.alternativA)
         alternativB = findViewById(R.id.alternativB)
         alternativC = findViewById(R.id.alternativC)
+        nyFraga = findViewById(R.id.nyFraga)
+        textViewPoints = findViewById(R.id.textViewPoints)
 
         alternativA.setVisibility(Button.GONE)
         alternativB.setVisibility(Button.GONE)
@@ -40,22 +40,20 @@ class MainActivity : AppCompatActivity() {
 
         rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
         rattEllerFel.setText("")
-        numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
+        var numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
         turnIndex =  numberOfPlayers * 2
         for (i in 1..numberOfPlayers){
             pointsList.add(0)
         }
-        var nyFraga = findViewById<Button>(R.id.nyFraga)
-        nyFraga.setText("Spelare1, varsågod!")
-
+        setNextPlayer(numberOfPlayers)
         nyFraga.setOnClickListener() {
             buttonIndex+=1
 
              if (gammalFraga!= null){
                  DataManager.questionsDone.add(gammalFraga!!)
-                 DataManager.frageBibliotek = forkortaBibliotek(gammalFraga!!, DataManager.frageBibliotek)
+                 DataManager.frageBibliotek = DataManager.ForkortaBibliotek(gammalFraga!!, DataManager.frageBibliotek)
              }
-            gammalFraga = NyFraga(DataManager.frageBibliotek)
+            gammalFraga = NyFraga(DataManager.frageBibliotek, numberOfPlayers)
             alternativA.setVisibility(Button.VISIBLE)
             alternativB.setVisibility(Button.VISIBLE)
             alternativC.setVisibility(Button.VISIBLE)
@@ -65,105 +63,61 @@ class MainActivity : AppCompatActivity() {
             alternativC.isEnabled = true
         }
     }
-    fun NyFraga(frageBibliotek: MutableList<FragaBas>): FragaBas{
-        fraga = findViewById<TextView>(R.id.fraga)
-        rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
+    fun NyFraga(frageBibliotek: MutableList<FragaBas>, numberOfPlayers: Int): FragaBas{
+        fraga = findViewById(R.id.fraga)
+        rattEllerFel = findViewById(R.id.rattEllerFel)
         rattEllerFel.setText("")
         var currentFraga = (frageBibliotek.random())
-        var fragaText = currentFraga.FragaInfo()
-        fraga.setText(fragaText)
-        alternativA = findViewById(R.id.alternativA)
-        alternativB = findViewById(R.id.alternativB)
-        alternativC = findViewById(R.id.alternativC)
-        alternativA.setText(currentFraga.Alternativ("A"))
-        alternativB.setText(currentFraga.Alternativ("B"))
-        alternativC.setText(currentFraga.Alternativ("C"))
+        fraga.setText(currentFraga.fraga)
+        alternativA.setText(currentFraga.A)
+        alternativB.setText(currentFraga.B)
+        alternativC.setText(currentFraga.C)
 
-        textViewPoints = findViewById(R.id.textViewPoints)
-         var textPoints = "Player Points:\n"
-        for(i in 1..numberOfPlayers){
-            textPoints = textPoints + "Player $i: ${pointsList[i-1]}\n"
-        }
-        textViewPoints.setText(textPoints)
+        showPoints(numberOfPlayers)
 
         alternativA.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativA.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.A)
             alternativB.setVisibility(Button.GONE)
             alternativC.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-                nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
             if (turnIndex <= buttonIndex){
                 DataManager.questionsDone.add(currentFraga)
                 startResultactivity()
             }
+            setNextPlayer(numberOfPlayers)
             alternativA.isEnabled = false
         }
         alternativB.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativB.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.B)
+
             alternativA.setVisibility(Button.GONE)
             alternativC.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-                nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
             if (turnIndex <= buttonIndex){
                 DataManager.questionsDone.add(currentFraga)
                 startResultactivity()
             }
+            setNextPlayer(numberOfPlayers)
             alternativB.isEnabled = false
         }
 
         alternativC.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativC.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.C)
+
             alternativB.setVisibility(Button.GONE)
             alternativA.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
             if (turnIndex <= buttonIndex){
                 DataManager.questionsDone.add(currentFraga)
                 startResultactivity()
             }
-            else if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-
-                    nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
+            setNextPlayer(numberOfPlayers)
             alternativC.isEnabled = false
         }
         return currentFraga
@@ -177,16 +131,29 @@ class MainActivity : AppCompatActivity() {
         Log.d("!!!MainActivity","$finalPointsArray")
         startActivity(intent)
     }
-
-    fun forkortaBibliotek(gammalFraga: FragaBas, frageBibliotek: MutableList<FragaBas>)
-    : MutableList<FragaBas> {
-        for (question in frageBibliotek) {
-            if (gammalFraga == question) {
-                frageBibliotek.remove(question)
-                break
-            }
+    fun showPoints(numberOfPlayers:Int){
+        var textPoints = "Player Points:\n"
+        for(i in 1..numberOfPlayers){
+            textPoints = textPoints + "Player $i: ${pointsList[i-1]}\n"
         }
-        return frageBibliotek
+        textViewPoints.setText(textPoints)
+    }
+    fun checkAnswer(rightAnswer: String,answer: String){
+        if (rightAnswer == answer) {
+            rattEllerFel.setText("Rätt!")
+            pointsList[playerIndex-1] +=1
+        } else {
+            rattEllerFel.setText("Fel!")
+        }
+    }
+    fun setNextPlayer(numberOfPlayers: Int){
+        if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
+            nyFraga.setText("Spelare $playerIndex, varsågod!")
+        }
+        else {
+            nyFraga.setText("Spelare 1, varsågod!")
+            playerIndex = 1
+        }
     }
 }
 

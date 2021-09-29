@@ -60,7 +60,7 @@ class ResultsActivity : AppCompatActivity() {
             }
             indexWinner++
         }
-        var winnersText = ""
+        var winnersText :String
         if(winnersList.size>1) {
             winnersText = "Det blev lika mellan "
             var indexSize = 1

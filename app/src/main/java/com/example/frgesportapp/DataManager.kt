@@ -21,4 +21,15 @@ object DataManager {
     val fraga12 = FragaBas("Vilket grundämne har förkortningen Ag i periodiska systemet?","Silver","Guld","Platina","Silver")
     var frageBibliotek = mutableListOf<FragaBas>(fraga1, fraga2, fraga3, fraga4,fraga5,fraga6,fraga7,fraga8, fraga9,fraga10,fraga11,fraga12)
     var questionsDone = mutableListOf<FragaBas>()
+
+    fun ForkortaBibliotek(gammalFraga: FragaBas, frageBibliotek: MutableList<FragaBas>)
+            : MutableList<FragaBas> {
+        for (question in frageBibliotek) {
+            if (gammalFraga == question) {
+                frageBibliotek.remove(question)
+                break
+            }
+        }
+        return frageBibliotek
+    }
 }
