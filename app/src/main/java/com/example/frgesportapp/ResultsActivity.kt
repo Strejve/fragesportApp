@@ -1,8 +1,10 @@
 package com.example.frgesportapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 
 
@@ -11,7 +13,7 @@ class ResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results)
-        var resultsPointsArray = intent.getIntArrayExtra("finalPointsList")
+        var resultsPointsArray = intent.getIntArrayExtra("finalPointsArray")
         val resultsTextView = findViewById<TextView>(R.id.resultsTextView)
         var resultsText = ""
         var index = 1
@@ -26,35 +28,43 @@ class ResultsActivity : AppCompatActivity() {
             if (resultsPointsArray[0] == 0) {
                 winnersTextView.setText("Alla fel! Bättre kan du.")
             }
-            else if (resultsPointsArray[0] == 1) {
-                winnersTextView.setText("Ett rätt! Inte så dåligt.")
+            else if (resultsPointsArray[0] >= 1 && resultsPointsArray[0]<4) {
+                winnersTextView.setText("Inte så dåligt!")
             }
             else winnersTextView.setText("Alla rätt! Bra jobbat!")
         }
         else {
             val sortResultsPoints = resultsPointsArray.copyOf()
-            getWinners(sortResultsPoints, resultsPointsArray)
+            val winnersList = getWinners(sortResultsPoints, resultsPointsArray)
+            printWinners(winnersList)
+        }
+        val scrollQuestionsButton = findViewById<Button>(R.id.scrollQuestionsButton)
+        scrollQuestionsButton.setOnClickListener(){
+            startScrollQuestionsActivity()
         }
     }
 
-    fun getWinners(sortResultsPoints: IntArray, resultsPointsArray:IntArray){
+    fun getWinners(sortResultsPoints: IntArray, resultsPointsArray:IntArray): MutableList<Int> {
         for (i in 0..sortResultsPoints.size - 1) {
             if ((i + 1) > (sortResultsPoints.size - 1)) {
                 break
             }
-            if (sortResultsPoints[i] < sortResultsPoints[i+1] && sortResultsPoints[0] < sortResultsPoints[i + 1]) {
-                sortResultsPoints[0] = sortResultsPoints[i+1]
+            if (sortResultsPoints[i] < sortResultsPoints[i + 1] && sortResultsPoints[0] < sortResultsPoints[i + 1]) {
+                sortResultsPoints[0] = sortResultsPoints[i + 1]
             }
         }
         var indexWinner = 1
-        var winnersList = mutableListOf<Int>()
+        val winnersList = mutableListOf<Int>()
         for (players in resultsPointsArray) {
             if (players == sortResultsPoints[0]) {
-             winnersList.add(indexWinner)
+                winnersList.add(indexWinner)
             }
             indexWinner++
         }
-        var winnersText = ""
+        return winnersList
+    }
+    fun printWinners(winnersList:MutableList<Int>){
+        var winnersText :String
         if(winnersList.size>1) {
             winnersText = "Det blev lika mellan "
             var indexSize = 1
@@ -75,5 +85,10 @@ class ResultsActivity : AppCompatActivity() {
 
         val winnersTextView = findViewById<TextView>(R.id.winnersTextView)
         winnersTextView.setText(winnersText)
+    }
+
+    fun startScrollQuestionsActivity(){
+        intent = Intent(this, ScrollQuestionsActivity::class.java)
+        startActivity(intent)
     }
 }

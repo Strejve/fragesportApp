@@ -11,49 +11,19 @@ import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity() {
-    val fraga1: FragaBas = FragaBas("Hur många säten har en formula 1 bil", "4", "3", "1", "1")
-    val fraga2: FragaBas = FragaBas(
-        "8 Juni 2014 döptes Prinsessan Leonore. Vilka förnamn döptes hon till?",
-        "Leonore, Lilian, Maria",
-        "Leonore, Josephine,Alice",
-        "Lenore, Désireé, Mary",
-        "Leonore, Lilian, Maria"
-    )
-    val fraga3: FragaBas =
-        FragaBas("Hur många lingon finns det i världen?", "3", "1", "120000000", "3")
-    val fraga4: FragaBas = FragaBas(
-        "På den fiktiva planeten Stankilorius luktar det lite suspekt. Vad är det som luktar där?",
-        "En rövargubbes andedräkt",
-        "En burk surströmming",
-        "Tre små lingon",
-        "Tre små lingon"
-    )
-    val fraga5: FragaBas = FragaBas("Nelson Mandela dömdes till livstid fängelse 1964. Vad heter ön utanför Kapstaden, Sydafrika där han satt fängslad?"
-        ,"Robben Island","Bornholm","Gran Canaria","Robben Island")
-    val fraga6 = FragaBas("Vilken skådespelare hade huvudrollen i filmen \"den siste scouten\" (The Last Boy Scout) från 1991?"
-            ,"Tom Cruise","Robert Gustavsson","Bruce Willis","Bruce Willis")
-    val fraga7 = FragaBas("Vad heter bakteriologen från Skottland som upptäckte penicillinet?","James Watson","Alexander Flemming","Albert Einstein","Alexander Flemming")
-    val fraga8 = FragaBas("Från vilken stad kommer ishockey-laget Brynäs?","Gällivare","Gävle","Borås","Gävle")
-    val fraga9 = FragaBas("Vilka fyra simsätt ingår i tävlingsgrenen Medley?","Hundsim, ryggsim, Crawl, Simkort","Fjärilsim, Grodsim, Bröstsim, Hundsim" ,"Fjärilsim, Ryggsim, Bröstsim, Frisim","Fjärilsim, Ryggsim, Bröstsim, Frisim")
-    val fraga10 =FragaBas("Vad heter författaren som skrev uppföljaren till Stig Larssons Millenium-trilogi?"
-            ,"David Lagercrantz","Liza Marklund","P.O Engquist","David Lagercrantz")
-    val fraga11 = FragaBas("Hur många ledamöter har Sveriges riksdag?","349","347","353","349")
-    val fraga12 = FragaBas("Vilket grundämne har förkortningen Ag i periodiska systemet?","Silver","Guld","Platina","Silver")
-    var frageBibliotek = mutableListOf<FragaBas>(fraga1, fraga2, fraga3, fraga4,fraga5,fraga6,fraga7,fraga8, fraga9,fraga10,fraga11,fraga12)
 
     lateinit var fraga: TextView
     lateinit var rattEllerFel: TextView
     lateinit var alternativA: Button
     lateinit var alternativB: Button
     lateinit var alternativC: Button
+    lateinit var nyFraga: Button
     lateinit var textViewPoints:TextView
-    var numberOfPlayers = 1
     var gammalFraga: FragaBas? = null
-    var playerIndex = 1
+    var playerIndex = 5
     var turnIndex = 0
     var buttonIndex = 0
     var pointsList = mutableListOf<Int>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         alternativA = findViewById(R.id.alternativA)
         alternativB = findViewById(R.id.alternativB)
         alternativC = findViewById(R.id.alternativC)
+        nyFraga = findViewById(R.id.nyFraga)
+        textViewPoints = findViewById(R.id.textViewPoints)
 
         alternativA.setVisibility(Button.GONE)
         alternativB.setVisibility(Button.GONE)
@@ -68,148 +40,121 @@ class MainActivity : AppCompatActivity() {
 
         rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
         rattEllerFel.setText("")
-        numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
-        turnIndex =  numberOfPlayers * 2
-        for (i in 1..numberOfPlayers){
-            pointsList.add(0)
-        }
-        var nyFraga = findViewById<Button>(R.id.nyFraga)
-        nyFraga.setText("Spelare1, varsågod!")
+        val numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
+        setTurnsAndPointsList(numberOfPlayers)
+
+        setNextPlayer(numberOfPlayers)
 
         nyFraga.setOnClickListener() {
             buttonIndex+=1
 
              if (gammalFraga!= null){
-                 frageBibliotek = forkortaBibliotek(gammalFraga!!, frageBibliotek)
+                 DataManager.forkortaBibliotek(gammalFraga!!)
              }
-            gammalFraga = NyFraga(frageBibliotek)
+            gammalFraga = nyFraga(DataManager.frageBibliotek, numberOfPlayers)
             alternativA.setVisibility(Button.VISIBLE)
             alternativB.setVisibility(Button.VISIBLE)
             alternativC.setVisibility(Button.VISIBLE)
             nyFraga.setVisibility(Button.GONE)
-
+            alternativA.isEnabled = true
+            alternativB.isEnabled = true
+            alternativC.isEnabled = true
         }
     }
-    fun NyFraga(frageBibliotek: MutableList<FragaBas>): FragaBas{
-        fraga = findViewById<TextView>(R.id.fraga)
-        rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
+    fun nyFraga(frageBibliotek: MutableList<FragaBas>, numberOfPlayers: Int): FragaBas{
+        fraga = findViewById(R.id.fraga)
+        rattEllerFel = findViewById(R.id.rattEllerFel)
         rattEllerFel.setText("")
-        var currentFraga = (frageBibliotek.random())
-        var fragaText = currentFraga.FragaInfo()
-        fraga.setText(fragaText)
-        alternativA = findViewById<Button>(R.id.alternativA)
-        alternativB = findViewById<Button>(R.id.alternativB)
-        alternativC = findViewById<Button>(R.id.alternativC)
-        alternativA.setText(currentFraga.Alternativ("A"))
-        alternativB.setText(currentFraga.Alternativ("B"))
-        alternativC.setText(currentFraga.Alternativ("C"))
+        val currentFraga = (frageBibliotek.random())
+        fraga.setText(currentFraga.fraga)
+        alternativA.setText(currentFraga.A)
+        alternativB.setText(currentFraga.B)
+        alternativC.setText(currentFraga.C)
 
-        textViewPoints = findViewById(R.id.textViewPoints)
-         var textPoints = "Player Points:\n"
-        for(i in 1..numberOfPlayers){
-            textPoints = textPoints + "Player $i: ${pointsList[i-1]}\n"
-        }
-        textViewPoints.setText(textPoints)
+        showPoints(numberOfPlayers)
 
         alternativA.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativA.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.A)
             alternativB.setVisibility(Button.GONE)
             alternativC.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-                nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
-            if (turnIndex <= buttonIndex){
-               startResultactivity()
-            }
+            checkTurns(currentFraga)
+            setNextPlayer(numberOfPlayers)
+            alternativA.isEnabled = false
         }
         alternativB.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativB.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.B)
+
             alternativA.setVisibility(Button.GONE)
             alternativC.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-                nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
-            if (turnIndex <= buttonIndex){
-               startResultactivity()
-            }
+            checkTurns(currentFraga)
+            setNextPlayer(numberOfPlayers)
+            alternativB.isEnabled = false
         }
 
         alternativC.setOnClickListener()
         {
-            if (currentFraga.rattSvar == alternativC.text) {
-                rattEllerFel.setText("Rätt!")
-                pointsList[playerIndex-1] +=1
-            } else {
-                rattEllerFel.setText("Fel!")
-            }
+            checkAnswer(currentFraga.rattSvar,currentFraga.C)
+
             alternativB.setVisibility(Button.GONE)
             alternativA.setVisibility(Button.GONE)
-            var nyFraga = findViewById<Button>(R.id.nyFraga)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if (turnIndex <= buttonIndex){
-                startResultactivity()
-            }
-            else if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
-
-                    nyFraga.setText("Spelare $playerIndex, varsågod!")
-            }
-            else {
-                nyFraga.setText("Spelare 1, varsågod!")
-                playerIndex = 1
-            }
-
+            checkTurns(currentFraga)
+            setNextPlayer(numberOfPlayers)
+            alternativC.isEnabled = false
         }
         return currentFraga
     }
 
 
     fun startResultactivity() {
-        val finalPointsList = pointsList.toIntArray()
+        val finalPointsArray = pointsList.toIntArray()
         intent = Intent(this, ResultsActivity::class.java)
-        intent.putExtra("finalPointsList",finalPointsList)
-        Log.d("!!!MainActivity","$finalPointsList")
+        intent.putExtra("finalPointsArray",finalPointsArray)
+        Log.d("!!!MainActivity","$finalPointsArray")
         startActivity(intent)
     }
-
-    fun forkortaBibliotek(
-        gammalFraga: FragaBas,
-        frageBibliotek: MutableList<FragaBas>
-    ): MutableList<FragaBas> {
-
-        for (question in frageBibliotek) {
-            if (gammalFraga == question) {
-                frageBibliotek.remove(question)
-                break
-            }
+    fun showPoints(numberOfPlayers:Int){
+        var textPoints = "Player Points:\n"
+        for(i in 1..numberOfPlayers){
+            textPoints = textPoints + "Player $i: ${pointsList[i-1]}\n"
         }
-        return frageBibliotek
+        textViewPoints.setText(textPoints)
+    }
+    fun checkAnswer(rightAnswer: String,answer: String){
+        if (rightAnswer == answer) {
+            rattEllerFel.setText("Rätt!")
+            pointsList[playerIndex-1] +=1
+        } else {
+            rattEllerFel.setText("Fel!")
+        }
+    }
+    fun setNextPlayer(numberOfPlayers: Int){
+        if(numberOfPlayers>1 && playerIndex<=numberOfPlayers) {
+            nyFraga.setText("Spelare $playerIndex, varsågod!")
+        }
+        else {
+            nyFraga.setText("Spelare 1, varsågod!")
+            playerIndex = 1
+        }
+    }
+    fun checkTurns(currentFraga: FragaBas){
+        if (turnIndex <= buttonIndex){
+            DataManager.questionsDone.add(currentFraga)
+            startResultactivity()
+        }
+    }
+    fun setTurnsAndPointsList(numberOfPlayers: Int){
+        turnIndex =  numberOfPlayers * 4
+        for (i in 1..numberOfPlayers) {
+            pointsList.add(0)
+        }
     }
 }
 
