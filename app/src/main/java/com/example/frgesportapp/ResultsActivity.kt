@@ -88,7 +88,7 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     fun startScrollQuestionsActivity(){
-        intent = Intent(this, scrollQuestionsActivity::class.java)
+        intent = Intent(this, ScrollQuestionsActivity::class.java)
         startActivity(intent)
     }
 }

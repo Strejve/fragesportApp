@@ -1,16 +1,14 @@
 package com.example.frgesportapp
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class scrollQuestionsAdapter (val context: Context, val questions: List<FragaBas>)
-    : RecyclerView.Adapter<scrollQuestionsAdapter.ViewHolder>() {
+class ScrollQuestionsAdapter (val context: Context, val questions: List<FragaBas>)
+    : RecyclerView.Adapter<ScrollQuestionsAdapter.ViewHolder>() {
 
     val layoutInflater = LayoutInflater.from(context)
 
@@ -19,12 +17,12 @@ class scrollQuestionsAdapter (val context: Context, val questions: List<FragaBas
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-    : scrollQuestionsAdapter.ViewHolder {
+    : ScrollQuestionsAdapter.ViewHolder {
         val itemView = layoutInflater.inflate(R.layout.list_item,parent,false)
         return ViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: scrollQuestionsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScrollQuestionsAdapter.ViewHolder, position: Int) {
         val question = questions[position]
         holder.questionTextView.text = question.fraga
         holder.answerTextView.text = question.rattSvar

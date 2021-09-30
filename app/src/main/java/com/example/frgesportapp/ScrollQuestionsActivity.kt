@@ -7,7 +7,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class scrollQuestionsActivity : AppCompatActivity() {
+class ScrollQuestionsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scroll_questions)
@@ -16,16 +16,14 @@ class scrollQuestionsActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         //skapa en adapter från vår adapter-klass, skicka med vår lista
-        val adapter = scrollQuestionsAdapter(this,DataManager.questionsDone)
+        val adapter = ScrollQuestionsAdapter(this,DataManager.questionsDone)
 
         //koppla ihop vår adapter med recyclerView:n
         recyclerView.adapter = adapter
 
         val playAgain = findViewById<Button>(R.id.playAgain)
         playAgain.setOnClickListener(){
-            DataManager.frageBibliotek.clear()
-            DataManager.makeQuestionsList()
-            DataManager.questionsDone.clear()
+            DataManager.newGameAddLists()
             intent = Intent(this, StartupActivity::class.java)
             startActivity(intent)
         }

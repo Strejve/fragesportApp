@@ -41,17 +41,15 @@ class MainActivity : AppCompatActivity() {
         rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
         rattEllerFel.setText("")
         val numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
-        turnIndex =  numberOfPlayers * 2
-        for (i in 1..numberOfPlayers){
-            pointsList.add(0)
-        }
+        setTurnsAndPointsList(numberOfPlayers)
+
         setNextPlayer(numberOfPlayers)
+
         nyFraga.setOnClickListener() {
             buttonIndex+=1
 
              if (gammalFraga!= null){
-                 DataManager.questionsDone.add(gammalFraga!!)
-                 DataManager.ForkortaBibliotek(gammalFraga!!)
+                 DataManager.forkortaBibliotek(gammalFraga!!)
              }
             gammalFraga = nyFraga(DataManager.frageBibliotek, numberOfPlayers)
             alternativA.setVisibility(Button.VISIBLE)
@@ -82,10 +80,7 @@ class MainActivity : AppCompatActivity() {
             alternativC.setVisibility(Button.GONE)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if (turnIndex <= buttonIndex){
-                DataManager.questionsDone.add(currentFraga)
-                startResultactivity()
-            }
+            checkTurns(currentFraga)
             setNextPlayer(numberOfPlayers)
             alternativA.isEnabled = false
         }
@@ -97,10 +92,7 @@ class MainActivity : AppCompatActivity() {
             alternativC.setVisibility(Button.GONE)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if (turnIndex <= buttonIndex){
-                DataManager.questionsDone.add(currentFraga)
-                startResultactivity()
-            }
+            checkTurns(currentFraga)
             setNextPlayer(numberOfPlayers)
             alternativB.isEnabled = false
         }
@@ -113,10 +105,7 @@ class MainActivity : AppCompatActivity() {
             alternativA.setVisibility(Button.GONE)
             nyFraga.setVisibility(Button.VISIBLE)
             playerIndex+=1
-            if (turnIndex <= buttonIndex){
-                DataManager.questionsDone.add(currentFraga)
-                startResultactivity()
-            }
+            checkTurns(currentFraga)
             setNextPlayer(numberOfPlayers)
             alternativC.isEnabled = false
         }
@@ -153,6 +142,18 @@ class MainActivity : AppCompatActivity() {
         else {
             nyFraga.setText("Spelare 1, varsågod!")
             playerIndex = 1
+        }
+    }
+    fun checkTurns(currentFraga: FragaBas){
+        if (turnIndex <= buttonIndex){
+            DataManager.questionsDone.add(currentFraga)
+            startResultactivity()
+        }
+    }
+    fun setTurnsAndPointsList(numberOfPlayers: Int){
+        turnIndex =  numberOfPlayers * 4
+        for (i in 1..numberOfPlayers) {
+            pointsList.add(0)
         }
     }
 }
