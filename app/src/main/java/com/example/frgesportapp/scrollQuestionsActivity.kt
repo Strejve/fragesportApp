@@ -1,7 +1,9 @@
 package com.example.frgesportapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -18,6 +20,12 @@ class scrollQuestionsActivity : AppCompatActivity() {
 
         //koppla ihop vår adapter med recyclerView:n
         recyclerView.adapter = adapter
+
+        val playAgain = findViewById<Button>(R.id.playAgain)
+        playAgain.setOnClickListener(){
+            intent = Intent(this, StartupActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

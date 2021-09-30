@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         rattEllerFel = findViewById<TextView>(R.id.rattEllerFel)
         rattEllerFel.setText("")
-        var numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
+        val numberOfPlayers = intent.getIntExtra("numberOfPlayers", 1)
         turnIndex =  numberOfPlayers * 2
         for (i in 1..numberOfPlayers){
             pointsList.add(0)
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         fraga = findViewById(R.id.fraga)
         rattEllerFel = findViewById(R.id.rattEllerFel)
         rattEllerFel.setText("")
-        var currentFraga = (frageBibliotek.random())
+        val currentFraga = (frageBibliotek.random())
         fraga.setText(currentFraga.fraga)
         alternativA.setText(currentFraga.A)
         alternativB.setText(currentFraga.B)
