@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity() {
 
              if (gammalFraga!= null){
                  DataManager.questionsDone.add(gammalFraga!!)
-                 DataManager.frageBibliotek = DataManager.ForkortaBibliotek(gammalFraga!!, DataManager.frageBibliotek)
+                 DataManager.ForkortaBibliotek(gammalFraga!!)
              }
-            gammalFraga = NyFraga(DataManager.frageBibliotek, numberOfPlayers)
+            gammalFraga = nyFraga(DataManager.frageBibliotek, numberOfPlayers)
             alternativA.setVisibility(Button.VISIBLE)
             alternativB.setVisibility(Button.VISIBLE)
             alternativC.setVisibility(Button.VISIBLE)
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             alternativC.isEnabled = true
         }
     }
-    fun NyFraga(frageBibliotek: MutableList<FragaBas>, numberOfPlayers: Int): FragaBas{
+    fun nyFraga(frageBibliotek: MutableList<FragaBas>, numberOfPlayers: Int): FragaBas{
         fraga = findViewById(R.id.fraga)
         rattEllerFel = findViewById(R.id.rattEllerFel)
         rattEllerFel.setText("")

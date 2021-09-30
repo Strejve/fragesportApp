@@ -23,6 +23,9 @@ class scrollQuestionsActivity : AppCompatActivity() {
 
         val playAgain = findViewById<Button>(R.id.playAgain)
         playAgain.setOnClickListener(){
+            DataManager.frageBibliotek.clear()
+            DataManager.makeQuestionsList()
+            DataManager.questionsDone.clear()
             intent = Intent(this, StartupActivity::class.java)
             startActivity(intent)
         }

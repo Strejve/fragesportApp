@@ -35,7 +35,8 @@ class ResultsActivity : AppCompatActivity() {
         }
         else {
             val sortResultsPoints = resultsPointsArray.copyOf()
-            getWinners(sortResultsPoints, resultsPointsArray)
+            val winnersList = getWinners(sortResultsPoints, resultsPointsArray)
+            printWinners(winnersList)
         }
         val scrollQuestionsButton = findViewById<Button>(R.id.scrollQuestionsButton)
         scrollQuestionsButton.setOnClickListener(){
@@ -43,23 +44,26 @@ class ResultsActivity : AppCompatActivity() {
         }
     }
 
-    fun getWinners(sortResultsPoints: IntArray, resultsPointsArray:IntArray){
+    fun getWinners(sortResultsPoints: IntArray, resultsPointsArray:IntArray): MutableList<Int> {
         for (i in 0..sortResultsPoints.size - 1) {
             if ((i + 1) > (sortResultsPoints.size - 1)) {
                 break
             }
-            if (sortResultsPoints[i] < sortResultsPoints[i+1] && sortResultsPoints[0] < sortResultsPoints[i + 1]) {
-                sortResultsPoints[0] = sortResultsPoints[i+1]
+            if (sortResultsPoints[i] < sortResultsPoints[i + 1] && sortResultsPoints[0] < sortResultsPoints[i + 1]) {
+                sortResultsPoints[0] = sortResultsPoints[i + 1]
             }
         }
         var indexWinner = 1
-        var winnersList = mutableListOf<Int>()
+        val winnersList = mutableListOf<Int>()
         for (players in resultsPointsArray) {
             if (players == sortResultsPoints[0]) {
-             winnersList.add(indexWinner)
+                winnersList.add(indexWinner)
             }
             indexWinner++
         }
+        return winnersList
+    }
+    fun printWinners(winnersList:MutableList<Int>){
         var winnersText :String
         if(winnersList.size>1) {
             winnersText = "Det blev lika mellan "
