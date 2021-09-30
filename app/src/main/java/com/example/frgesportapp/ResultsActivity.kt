@@ -13,29 +13,16 @@ class ResultsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results)
-        var resultsPointsArray = intent.getIntArrayExtra("finalPointsArray")
-        val resultsTextView = findViewById<TextView>(R.id.resultsTextView)
-        var resultsText = ""
-        var index = 1
-        Log.d("!!!resultsNull?","$resultsPointsArray")
-        for (i in resultsPointsArray!!) {
-            resultsText = resultsText + "Player $index points: $i \n"
-            index+=1
-        }
-        resultsTextView.setText(resultsText)
+        val resultsPointsArray = intent.getIntArrayExtra("finalPointsArray")
+        //Log.d("!!!resultsNull?","$resultsPointsArray")
+
+        showFinalPoints(resultsPointsArray!!)
+
         if (resultsPointsArray.size == 1){
-            val winnersTextView = findViewById<TextView>(R.id.winnersTextView)
-            if (resultsPointsArray[0] == 0) {
-                winnersTextView.setText("Alla fel! Bättre kan du.")
-            }
-            else if (resultsPointsArray[0] >= 1 && resultsPointsArray[0]<4) {
-                winnersTextView.setText("Inte så dåligt!")
-            }
-            else winnersTextView.setText("Alla rätt! Bra jobbat!")
+            singlePlayerComment(resultsPointsArray)
         }
         else {
-            val sortResultsPoints = resultsPointsArray.copyOf()
-            val winnersList = getWinners(sortResultsPoints, resultsPointsArray)
+            val winnersList = getWinners(resultsPointsArray)
             printWinners(winnersList)
         }
         val scrollQuestionsButton = findViewById<Button>(R.id.scrollQuestionsButton)
@@ -43,8 +30,31 @@ class ResultsActivity : AppCompatActivity() {
             startScrollQuestionsActivity()
         }
     }
+    fun showFinalPoints(resultsPointsArray: IntArray){
+        var index = 1
+        var resultsText = ""
+        for (i in resultsPointsArray) {
+            resultsText = resultsText + "Player $index points: $i \n"
+            index+=1
+        }
+        val resultsTextView = findViewById<TextView>(R.id.resultsTextView)
+        resultsTextView.setText(resultsText)
+    }
 
-    fun getWinners(sortResultsPoints: IntArray, resultsPointsArray:IntArray): MutableList<Int> {
+    fun singlePlayerComment(resultsPointsArray: IntArray){
+
+        val winnersTextView = findViewById<TextView>(R.id.winnersTextView)
+        if (resultsPointsArray[0] == 0) {
+            winnersTextView.setText("Alla fel! Bättre kan du.")
+        }
+        else if (resultsPointsArray[0] >= 1 && resultsPointsArray[0]<4) {
+            winnersTextView.setText("Inte så dåligt!")
+        }
+        else winnersTextView.setText("Alla rätt! Bra jobbat!")
+    }
+
+    fun getWinners(resultsPointsArray:IntArray): MutableList<Int> {
+        val sortResultsPoints = resultsPointsArray.copyOf()
         for (i in 0..sortResultsPoints.size - 1) {
             if ((i + 1) > (sortResultsPoints.size - 1)) {
                 break

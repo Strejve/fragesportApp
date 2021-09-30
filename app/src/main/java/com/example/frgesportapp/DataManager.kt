@@ -29,11 +29,9 @@ object DataManager {
         frageBibliotek.add(FragaBas("1976 kom Stephen King ut med sin debutroman som handlar om en mobbad tonårsflicka med övernaturliga förmågor. 1980 kom romanen ut med svensk översättning. Vad heter boken?",
         "Varsel","Knackarna","Carrie","Carrie"))
         frageBibliotek.add(FragaBas("Tv-serien Dallas har fångat tv-tittare runt om i världen. En maktkamp mellan familjerna Ewing och Barnes med ärkeskurken JR Ewing i spetsen. I serien gifter sig Bobby Ewing med Pamela Barnes, vad heter dessa 2 skådespelare?",
-        "Bruce Willis och Tuva Novotny","Patrick Duffy och Victoria Principal","Humphfrey Bogart och Meryl Streep","Patrick Duffy och Victoria Principal"))
-        frageBibliotek.add(
-            FragaBas("Låten \"Eye of tiger\" skrivs till filmen Rocky III. Vad heter gruppen som gjort låten?",
-
-            "Toto","Survivor","Audioslave","Survivor"))
+        "Bruce Willis och Tuva Novotny","Patrick Duffy och Victoria Principal","Humphrey Bogart och Meryl Streep","Patrick Duffy och Victoria Principal"))
+        frageBibliotek.add(FragaBas("Låten \"Eye of tiger\" skrivs till filmen Rocky III. Vad heter gruppen som gjort låten?",
+                "Toto","Survivor","Audioslave","Survivor"))
         frageBibliotek.add(FragaBas("1984 börjar SVT visa en australiensk serie med\n Richard Chamberlain i en av huvudrollerna. Serien bygger på en roman med samma namn och är skriven av Colleen McCullough. Vad heter tv-serien?",
         "Törnfåglarna","Doktorn kan komma","Kvinnofängelset","Törnfåglarna"))
     }
