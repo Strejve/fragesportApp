@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.11328125" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_results.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_scroll_questions.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_scroll_questions_adapter.xml" value="0.125" />

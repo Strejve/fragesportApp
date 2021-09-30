@@ -28,8 +28,8 @@ class ResultsActivity : AppCompatActivity() {
             if (resultsPointsArray[0] == 0) {
                 winnersTextView.setText("Alla fel! Bättre kan du.")
             }
-            else if (resultsPointsArray[0] == 1) {
-                winnersTextView.setText("Ett rätt! Inte så dåligt.")
+            else if (resultsPointsArray[0] >= 1 && resultsPointsArray[0]<4) {
+                winnersTextView.setText("Inte så dåligt!")
             }
             else winnersTextView.setText("Alla rätt! Bra jobbat!")
         }
